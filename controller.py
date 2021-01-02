@@ -4,6 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import re
+from ocr import ocr
 
 
 class Controller:
@@ -20,3 +21,7 @@ class Controller:
     def login(self, user, password):
         self.driver.find_element_by_xpath('/html/body/article/div/div/div/form/div/div[1]/input').send_keys(user)
         self.driver.find_element_by_xpath('/html/body/article/div/div/div/form/div/div[2]/input').send_keys(password)
+        # 获取验证码图片
+        img = self.driver.find_element_by_xpath('//*[@id="img_val"]')
+        res = ocr(img)
+        self.driver.find_element_by_xpath('//*[@id="txtCode"]').send_keys(res)
